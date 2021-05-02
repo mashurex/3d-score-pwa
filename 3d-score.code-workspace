@@ -1,0 +1,33 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"[javascript]": {
+			"editor.formatOnSave": false
+		},
+		"javascript.format.enable": false,
+		"eslint.alwaysShowStatus": true,
+		"eslint.validate": [
+			"javascript",
+			"html",
+			"vue",
+			"vue-html"
+		],
+		"eslint.options": {
+			"extensions": [
+				".html",
+				".js",
+				".vue",
+				".jsx"
+			]
+		},
+		"editor.codeActionsOnSave": {
+			"source.fixAll.eslint": true,
+			"source.fixAll.stylelint": true
+		},
+		"vetur.validation.template": false
+	}
+}
