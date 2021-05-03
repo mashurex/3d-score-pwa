@@ -101,6 +101,9 @@ export default {
             this.resetInternal(v);
         },        
     },
+    mounted() {
+      this.resetInternal(this.currentRoundData);
+    },
     methods: {
         setScore(player, score) {            
             const newScore = parseInt(score, 10);

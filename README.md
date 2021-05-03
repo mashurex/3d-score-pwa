@@ -1,5 +1,7 @@
 # 3d-score
 
+Basic (extremely) Vuetify Progressive Web Application for scoring 3D Archery rounds designed to be able to operate fully offline.
+
 ## Project setup
 ```
 yarn install
@@ -19,6 +21,3 @@ yarn build
 ```
 yarn lint
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).

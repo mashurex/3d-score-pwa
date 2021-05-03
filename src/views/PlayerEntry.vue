@@ -7,8 +7,9 @@
     >
       <v-col cols="12">
         <v-text-field
-          :placeholder="player.name"
-          :label="`Player ${idx + 1}`"
+          :placeholder="`${player.name} Name`"
+          :label="`Player ${idx + 1} Name`"
+          :autofocus="idx === 0"
           @input="(event) => handleInput(idx, event)"
         />
       </v-col>            

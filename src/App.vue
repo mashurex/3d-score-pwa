@@ -12,11 +12,12 @@
       <Setup v-else />
     </v-main>
     <v-footer v-if="showReset">
-      <v-row>
+      <v-row class="mb-4 pt-2">
         <v-col>
           <v-btn
             block
             color="red darken-1"
+            
             @click="reset()"
           >
             Reset

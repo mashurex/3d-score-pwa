@@ -8,7 +8,7 @@ const vuexPersist = new VuexPersist({
   
 
 const state = {
-    currentView: 'ROUND_ENTRY',    
+    currentView: 'SETUP',    
     playerCount: 2,
     players: [],        
     currentRound: 0,    
