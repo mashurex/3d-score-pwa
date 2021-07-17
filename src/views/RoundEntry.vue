@@ -40,6 +40,9 @@
           >
             0
           </v-btn>
+          <v-btn @click="showCustom(player)">
+            {{ customScoreLabel(player) }}
+          </v-btn>
         </v-btn-toggle>
       </v-col>
     </v-row>
@@ -67,7 +70,7 @@
     <v-row>
       <v-col>
         <v-btn
-          v-if="currentRound === totalRounds"
+          v-if="currentRound >= (totalRounds - 1)"
           class="mt-4"
           color="success"
           block
@@ -77,6 +80,40 @@
         </v-btn>
       </v-col>
     </v-row> 
+    <v-dialog v-model="showCustomEntry">
+      <v-card>
+        <v-card-title>{{ customPlayer ? customPlayer.name : '' }}</v-card-title>
+        <v-form>
+          <v-container>
+            <v-row>
+              <v-col>
+                <v-text-field
+                  v-model="customScore"
+                  type="number"
+                  label="Custom Score"
+                />
+              </v-col>
+            </v-row>            
+          </v-container>
+        </v-form>
+        <v-card-actions>
+          <v-spacer />
+          <v-btn
+            color="warning"
+            @click="cancelCustomScore()"
+          >
+            Cancel
+          </v-btn>
+          <v-btn
+            color="primary"
+            :disabled="!customScore"
+            @click="setCustomScoreOf(customPlayer, customScore)"
+          >
+            Save
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 <script>
@@ -88,6 +125,9 @@ export default {
             totalScoresEntered: 0,
             scores: {},
             scoreChanges: false,
+            showCustomEntry: false,
+            customPlayer: null,
+            customScore: null
         }
     },
     computed: {
@@ -105,6 +145,36 @@ export default {
       this.resetInternal(this.currentRoundData);
     },
     methods: {
+      customScoreLabel(player) {
+        let score = this.scoreOf(player)
+        if (!score || score === 0) {
+          return '...'
+        } else {
+          return score;
+        }
+      },
+      showCustom(player) {
+        let  score = this.scoreOf(player)
+        if (!score) {
+          score = null
+        }
+
+        this.customPlayer = JSON.parse(JSON.stringify(player)),
+        this.customScore = score;
+        this.showCustomEntry = true;
+
+      },
+      setCustomScoreOf(customPlayer, customScore) {
+        this.setScore(customPlayer, customScore)
+        this.showCustomEntry = false;
+        this.customPlayer = null;
+        this.customScore = null;
+      },
+      cancelCustomScore() {
+        this.customPlayer = null;
+        this.customScore = null;
+        this.showCustomEntry = false;
+      },
         setScore(player, score) {            
             const newScore = parseInt(score, 10);
             if (this.scores[player.name]) {
