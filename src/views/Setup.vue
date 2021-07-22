@@ -40,6 +40,7 @@
   </v-container>
 </template>
 <script>
+import { Dispatch, Routes } from '@/constants';
 export default {
     name: 'Setup',
     data() {
@@ -51,9 +52,15 @@ export default {
     computed: {
        
     },
+    mounted() {
+      this.$store.dispatch('resetEnabled', false);
+      this.$store.dispatch('setToolbarTitle', '3D Score');
+    },       
     methods: {
         proceedToPlayerSetup() {            
-            this.$store.dispatch('proceedToPlayerSetup',{playerCount: this.players, rounds: this.rounds})
+            this.$store.dispatch(Dispatch.ROUND_SETUP,{playerCount: this.players, rounds: this.rounds}).then(() => {
+              this.$router.push({name: Routes.PLAYER_ENTRY })
+            })            
         },
         incrementPlayers() {
             this.players = this.increment(this.players);

@@ -2,7 +2,7 @@
   <v-container>        
     <v-row
       v-for="(player, idx) in players"
-      :key="idx"
+      :key="player.id"
       align="center"
     >
       <v-col cols="12">
@@ -10,7 +10,7 @@
           :placeholder="`${player.name} Name`"
           :label="`Player ${idx + 1} Name`"
           :autofocus="idx === 0"
-          @input="(event) => handleInput(idx, event)"
+          @input="(event) => handleInput(player, event)"
         />
       </v-col>            
     </v-row>        
@@ -28,32 +28,36 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
+import { Routes } from '@/constants';
 
 export default {
     name: 'PlayerEntry',
     data() {
-        return {
-            playerNames: (this.players || []).map((p) => p.name)
+        return {            
         }
     },
     computed: {
        ...mapGetters(['players']),
-
-    },    
-    watch: {
-        players(v) {
-            this.playerNames = (v||[]).map((p) => p.name)
-        }
+       playerNames() {
+         return (this.players||[]).reduce((prv, p) => {
+              prv[p.id] = p.name
+              return prv;
+            }, {})          
+       }
     },
+    mounted() {
+      this.$store.dispatch('resetEnabled', false);
+      this.$store.dispatch('setToolbarTitle', 'Players');
+    },       
     methods: {
-        handleInput(index, event) {            
-            this.playerNames[index] = event;
+        handleInput(player, event) {
+            this.$store.dispatch('setPlayerName', {id: player.id, name: event})                        
         },
-        goBack() {
-            this.$store.dispatch('backToSetup');
+        goBack() {            
+            this.$router.push({name: Routes.SETUP})
         },
-        proceedToFirstRound() {            
-            this.$store.dispatch('proceedToFirstRound', { names: this.playerNames })
+        proceedToFirstRound() {                        
+            this.$router.push({name: Routes.ROUND_ENTRY, params: { round: 1}})
         }        
     }
 }
