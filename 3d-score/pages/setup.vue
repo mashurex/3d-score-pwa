@@ -59,11 +59,15 @@
         </v-btn>
       </v-col>
     </v-row>
+    <nuxt-link v-show="false" to="/round/1">Round 1</nuxt-link>
   </v-form>
 </template>
 <script>
 export default {
   name: 'Setup',
+  key(route) {
+      return route.fullPath;
+  },  
   data() {
     return {
       showSetup: true,

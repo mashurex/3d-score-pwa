@@ -1,21 +1,20 @@
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
-  ssr: true,
-
+  ssr: false,
   // Target: https://go.nuxtjs.dev/config-target
-  target: 'static',
-
+  target: 'static',  
+  loading: false,
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - 3d-score',
-    title: '3d-score',
+    titleTemplate: '%s',
+    title: '3D Score',
     meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' },
-      { name: 'format-detection', content: 'telephone=no' },
-      { name: 'application-name', content: '3D Score' },
-      { name: 'apple-mobile-web-app-title', content: '3D Score' },      
+      { hid: 'charset', charset: 'utf-8' },
+      { hid: 'viewport', name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      { hid: 'description', name: 'description', content: '3D Archery Scoring' },
+      { hid: 'format-detection', name: 'format-detection', content: 'telephone=no' },
+      { hid: 'application-name', name: 'application-name', content: '3D Score' },
+      { hid: 'apple-mobile-web-app-title', name: 'apple-mobile-web-app-title', content: '3D Score' },      
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },      
@@ -33,7 +32,7 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     { src: '~/plugins/utils-plugin' },
-    { src: '~/plugins/vuex-persist', ssr: false }
+    { src: '~/plugins/vuex-persist', ssr: false },    
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -44,42 +43,57 @@ export default {
     // https://go.nuxtjs.dev/eslint
     '@nuxtjs/eslint-module',
     // https://go.nuxtjs.dev/vuetify
-    '@nuxtjs/vuetify',
+    '@nuxtjs/vuetify'
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/pwa
-    '@nuxtjs/pwa',
+    '@nuxtjs/pwa',    
   ],
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
     manifest: {
-      lang: 'en'
+      lang: 'en',
+      name: '3D Score',
+      short_name: '3D Score',
+      display: 'standalone'
+    },
+    workbox: {      
+      enabled: true,
+      runtimeCaching: [
+        {
+          urlPattern: 'https://fonts.gstatic.com/.*',
+          handler: 'cacheFirst',
+          method: 'GET',
+          strategyOptions: { cacheableResponse: { statuses: [0, 200] } }
+        },
+        {
+          urlPattern: 'https://fonts.googleapis.com/.*',
+          handler: 'cacheFirst',
+          method: 'GET',
+          strategyOptions: { cacheableResponse: { statuses: [0, 200] } }
+        },
+        {
+          urlPattern: 'https://cdn.jsdeliver.net/.*',
+          handler: 'cacheFirst',
+          method: 'GET',
+          strategyOptions: { cacheableResponse: { statuses: [0, 200] } }
+        }
+      ]
     },
   },
-
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
-    // theme: {
-    //   dark: true,
-    //   themes: {
-    //     dark: {
-    //       primary: colors.blue.darken2,
-    //       accent: colors.grey.darken3,
-    //       secondary: colors.amber.darken3,
-    //       info: colors.teal.lighten1,
-    //       warning: colors.amber.base,
-    //       error: colors.deepOrange.accent4,
-    //       success: colors.green.accent3
-    //     }
-    //   }
-    // }
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+  },
+  router: {
+    prefetchLinks: true,
+    prefetchPayloads: true,
   }
 }

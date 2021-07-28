@@ -43,7 +43,10 @@
 <script>
 import { mapGetters } from 'vuex';
 export default {
-    name: 'Round',    
+    name: 'Round',
+    key(route) {
+        return route.fullPath;
+    },    
     asyncData({ params }) {
         return { round: parseInt(params.round, 10) }
     },

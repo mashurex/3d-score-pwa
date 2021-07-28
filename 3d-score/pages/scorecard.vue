@@ -32,11 +32,14 @@
 import { mapGetters } from 'vuex';
 export default {
     name: 'ScoreCard',
+    key(route) {
+        return route.fullPath;
+    },  
     data() {
         return {
 
         }
-    },
+    },    
     computed: {
         ...mapGetters(['players', 'rounds']),
         playersMap() {
